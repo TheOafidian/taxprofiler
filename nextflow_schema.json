@@ -10,7 +10,11 @@
             "type": "object",
             "fa_icon": "fas fa-terminal",
             "description": "Define where the pipeline should find input data and save output data.",
-            "required": ["input", "databases", "outdir"],
+            "required": [
+                "input",
+                "databases",
+                "outdir"
+            ],
             "properties": {
                 "input": {
                     "type": "string",
@@ -59,7 +63,10 @@
                 "preprocessing_qc_tool": {
                     "type": "string",
                     "default": "fastqc",
-                    "enum": ["fastqc", "falco"],
+                    "enum": [
+                        "fastqc",
+                        "falco"
+                    ],
                     "help_text": "Falco is designed as a drop-in replacement for FastQC but written in C++ for faster computation. We particularly recommend using falco when using long reads (due to reduced memory constraints), however is also applicable for short reads.",
                     "description": "Specify the tool used for quality control of raw sequencing reads",
                     "fa_icon": "fas fa-tools"
@@ -88,7 +95,10 @@
                 "shortread_qc_tool": {
                     "type": "string",
                     "default": "fastp",
-                    "enum": ["fastp", "adapterremoval"],
+                    "enum": [
+                        "fastp",
+                        "adapterremoval"
+                    ],
                     "fa_icon": "fas fa-tools",
                     "description": "Specify which tool to use for short-read QC"
                 },
@@ -147,7 +157,11 @@
                 "shortread_complexityfilter_tool": {
                     "type": "string",
                     "default": "bbduk",
-                    "enum": ["bbduk", "prinseqplusplus", "fastp"],
+                    "enum": [
+                        "bbduk",
+                        "prinseqplusplus",
+                        "fastp"
+                    ],
                     "fa_icon": "fas fa-hammer",
                     "description": "Specify which tool to use for complexity filtering"
                 },
@@ -181,7 +195,10 @@
                 "shortread_complexityfilter_prinseqplusplus_mode": {
                     "type": "string",
                     "default": "entropy",
-                    "enum": ["entropy", "dust"],
+                    "enum": [
+                        "entropy",
+                        "dust"
+                    ],
                     "fa_icon": "fas fa-check-square",
                     "description": "Specify the complexity filter mode for PRINSEQ++"
                 },
@@ -325,7 +342,7 @@
                     "type": "boolean",
                     "fa_icon": "fas fa-save",
                     "description": "Save reads from samples that went through the run-merging step",
-                    "help_text": "Save the run- and library-concatenated reads of a given sample in FASTQ format.\n\n> \u26a0\ufe0f Only samples that went through the run-merging step of the pipeline will be stored in the resulting directory. \n\nIf you wish to save the files that go to the classification/profiling steps for samples that _did not_ go through run merging, you must supply the appropriate upstream `--save_<preprocessing_step>` flag.\n\n"
+                    "help_text": "Save the run- and library-concatenated reads of a given sample in FASTQ format.\n\n> ⚠️ Only samples that went through the run-merging step of the pipeline will be stored in the resulting directory. \n\nIf you wish to save the files that go to the classification/profiling steps for samples that _did not_ go through run merging, you must supply the appropriate upstream `--save_<preprocessing_step>` flag.\n\n"
                 }
             },
             "fa_icon": "fas fa-clipboard-check"
@@ -339,7 +356,7 @@
                 "run_centrifuge": {
                     "type": "boolean",
                     "fa_icon": "fas fa-toggle-on",
-                    "description": "Turn on profiling with Centrifuge. Requires database to be present CSV file passed to --databases"
+                    "description": "Turn on profiling with Centrifuge. Requires database to be present in CSV file passed to --databases"
                 },
                 "centrifuge_save_reads": {
                     "type": "boolean",
@@ -350,12 +367,20 @@
                 "run_diamond": {
                     "type": "boolean",
                     "fa_icon": "fas fa-toggle-on",
-                    "description": "Turn on profiling with DIAMOND. Requires database to be present CSV file passed to --databases"
+                    "description": "Turn on profiling with DIAMOND. Requires database to be present in CSV file passed to --databases"
                 },
                 "diamond_output_format": {
                     "type": "string",
                     "default": "tsv",
-                    "enum": ["blast", "xml", "txt", "daa", "sam", "tsv", "paf"],
+                    "enum": [
+                        "blast",
+                        "xml",
+                        "txt",
+                        "daa",
+                        "sam",
+                        "tsv",
+                        "paf"
+                    ],
                     "fa_icon": "fas fa-file",
                     "description": "Specify output format from DIAMOND profiling.",
                     "help_text": "DIAMOND can produce output in a number of different formats, you can specify here which to produce.\n\nNote that DIAMOND can only produce one format at a time, and depending on which you pick, some downstream steps may not be executed. For example, selecting `daa` or `sam` will mean you will not get a tabular taxonomic profile as with the other tools.\n\nWill be overriden by `--diamond_save_reads.`\n\n> Modifies tool parameter(s):\n> - diamond blastx: `--outfmt`"
@@ -369,12 +394,19 @@
                 "run_kaiju": {
                     "type": "boolean",
                     "fa_icon": "fas fa-toggle-on",
-                    "description": "Turn on profiling with Kaiju. Requires database to be present CSV file passed to --databases"
+                    "description": "Turn on profiling with Kaiju. Requires database to be present in CSV file passed to --databases"
                 },
                 "kaiju_taxon_rank": {
                     "type": "string",
                     "default": "species",
-                    "enum": ["phylum", "class", "order", "family", "genus", "species"],
+                    "enum": [
+                        "phylum",
+                        "class",
+                        "order",
+                        "family",
+                        "genus",
+                        "species"
+                    ],
                     "fa_icon": "fas fa-tag",
                     "description": "Specify taxonomic rank to be displayed in Kaiju taxon table",
                     "help_text": "Specify the taxonomic level(s) to be displayed in the resulting Kaiju taxon table, as generated by the kaiju2table helper tool.\n\nThis can be either a single level (e.g. `species`), or a comma separated list to display the full taxonomic path (e.g. `superkingdom,phylum,class,order,family,genus,species.`).\n\n> Modifies tool parameter(s):\n> - kaiju2table: `-l`"
@@ -382,7 +414,7 @@
                 "run_kraken2": {
                     "type": "boolean",
                     "fa_icon": "fas fa-toggle-on",
-                    "description": "Turn on profiling with Kraken2. Requires database to be present CSV file passed to --databases"
+                    "description": "Turn on profiling with Kraken2. Requires database to be present in CSV file passed to --databases"
                 },
                 "kraken2_save_reads": {
                     "type": "boolean",
@@ -405,7 +437,7 @@
                 "run_krakenuniq": {
                     "type": "boolean",
                     "fa_icon": "fas fa-toggle-on",
-                    "description": "Turn on profiling with KrakenUniq. Requires database to be present CSV file passed to --databases"
+                    "description": "Turn on profiling with KrakenUniq. Requires database to be present in CSV file passed to --databases"
                 },
                 "krakenuniq_save_reads": {
                     "type": "boolean",
@@ -434,7 +466,7 @@
                 "run_malt": {
                     "type": "boolean",
                     "fa_icon": "fas fa-toggle-on",
-                    "description": "Turn on profiling with MALT. Requires database to be present CSV file passed to --databases"
+                    "description": "Turn on profiling with MALT. Requires database to be present in CSV file passed to --databases"
                 },
                 "malt_mode": {
                     "type": "string",
@@ -457,13 +489,13 @@
                 },
                 "run_metaphlan3": {
                     "type": "boolean",
-                    "description": "Turn on profiling with MetaPhlAn3. Requires database to be present CSV file passed to --databases",
+                    "description": "Turn on profiling with MetaPhlAn3. Requires database to be present in CSV file passed to --databases",
                     "fa_icon": "fas fa-toggle-on"
                 },
                 "run_motus": {
                     "type": "boolean",
                     "fa_icon": "fas fa-toggle-on",
-                    "description": "Turn on profiling with mOTUs. Requires database to be present CSV file passed to --databases"
+                    "description": "Turn on profiling with mOTUs. Requires database to be present in  CSV file passed to --databases"
                 },
                 "motus_use_relative_abundance": {
                     "type": "boolean",
@@ -476,6 +508,10 @@
                 "motus_remove_ncbi_ids": {
                     "type": "boolean",
                     "description": "Turn on removing NCBI taxonomic IDs."
+                },
+                "run_metabuli": {
+                    "type": "boolean",
+                    "description": "Turn on profiling with Metabuli. Requires database to be present in CSV file passed to --databases"
                 }
             },
             "fa_icon": "fas fa-align-center"
@@ -516,7 +552,13 @@
                     "default": "tsv",
                     "fa_icon": "fas fa-pastafarianism",
                     "description": "The desired output format.",
-                    "enum": ["tsv", "csv", "arrow", "parquet", "biom"]
+                    "enum": [
+                        "tsv",
+                        "csv",
+                        "arrow",
+                        "parquet",
+                        "biom"
+                    ]
                 },
                 "taxpasta_taxonomy_dir": {
                     "type": "string",
@@ -659,7 +701,14 @@
                     "description": "Method used to save pipeline results to output directory.",
                     "help_text": "The Nextflow `publishDir` option specifies which intermediate files should be saved to the output directory. This option tells the pipeline what method should be used to move these files. See [Nextflow docs](https://www.nextflow.io/docs/latest/process.html#publishdir) for details.",
                     "fa_icon": "fas fa-copy",
-                    "enum": ["symlink", "rellink", "link", "copy", "copyNoFollow", "move"],
+                    "enum": [
+                        "symlink",
+                        "rellink",
+                        "link",
+                        "copy",
+                        "copyNoFollow",
+                        "move"
+                    ],
                     "hidden": true
                 },
                 "email_on_fail": {
